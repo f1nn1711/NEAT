@@ -1,4 +1,4 @@
-import network.n_network as NN
+import evolution.network.n_network as NN
 import random
 
 random.seed(1)
@@ -24,4 +24,4 @@ neuralNetwork.addConnection(
 )
 
 output = neuralNetwork.run([2])
-print(output) # This should return [20.42689807809999]
+print(output) # This should return [0.6296103610471014]

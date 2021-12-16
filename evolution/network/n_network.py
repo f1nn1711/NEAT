@@ -95,3 +95,14 @@ class Network:
         # set the outputs of all of them to None
         # return all the output values
         return networkOutput
+    
+    def networkInfo(self):
+        print('-'*40)
+        print(f'Input nodes: {len(self.inputNodes)}')
+        print(f'Hidden nodes: {len(self.hiddenNodes)}')
+        print(f'Output nodes: {len(self.outputNodes)}')
+        print(f'Connections: {len(self.connections)}')
+        print('')
+        tunableParams = len(self.connections)+len(self.outputNodes)+len(self.hiddenNodes)+len(self.inputNodes)
+        print(f'Tunable Parameters: {tunableParams}')
+        print('-'*40)
