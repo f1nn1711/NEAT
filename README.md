@@ -1,2 +1,5 @@
 # NEAT
-An implementation of the NEAT(Neuro Evolution of Augmenting Topologies).
+## How does NEAT work?
+An implementation of the NEAT(Neuro Evolution of Augmenting Topologies). NEAT combines neural networks and a genetic algorithm, in traditional neural networks the network weights and biases are adjusted by an optimization function (for example: stochastic gradient decent, adaptive moment estimation). In the NEAT algorithm the weights and biases are adjusted by random mutations. In traditional neural network the structure of the network is pre-defined in the hyper parameters and stay constants through the training process. In NEAT the structure of the nerual network can change throughout the training process through survival of the fittest. There is a chance that a mutation will occur where a new neuron or connection will be added to the network. In addition to this the weights and biases can under go mutations to allow them to change and improve over time.
+## The advantages of NEAT
+By allowing the structure of the neural network to change over time it also means that the most efficient network model can be found as well as the best weights and biases.
