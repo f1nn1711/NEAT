@@ -3,7 +3,7 @@ import random
 
 random.seed(1)
 
-neuralNetwork = NN.Network(1,1)
+neuralNetwork = NN.Network(1,1, outputActivation='sigmoid')
 
 neuralNetwork.addNode()
 neuralNetwork.addNode()

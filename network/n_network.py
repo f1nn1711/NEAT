@@ -3,9 +3,10 @@ from .connection import *
 import random
 
 class Network:
-    def __init__(self, nInput, nOutput):
+    def __init__(self, nInput, nOutput, outputActivation='linear'):
         self.nInput = nInput
         self.nOutput = nOutput
+        self.outputActivation = outputActivation
 
         self.inputNodes = []
         self.hiddenNodes = []
@@ -20,10 +21,10 @@ class Network:
             self.inputNodes.append(Node(True, False))
         
         for n in range(self.nOutput):
-            self.outputNodes.append(Node(False, True))
+            self.outputNodes.append(Node(False, True, self.outputActivation))
     
-    def addNode(self):
-        self.hiddenNodes.append(Node(False, False))
+    def addNode(self, isInput=False, inOutput=False, activation='linear'):
+        self.hiddenNodes.append(Node(isInput, inOutput, activation))
     
     def addConnection(self, startNode=None, endNode=None):
         if (not startNode) or (not endNode):
