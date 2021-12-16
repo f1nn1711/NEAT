@@ -1,9 +1,11 @@
+import random
+
 class Connection:
     def __init__(self, startNode, endNode):
         self.startNode = startNode
         self.endNode = endNode
 
-        self.weight = 2#(random.random()*2)-1
+        self.weight = (random.random()*2)-1
     
     def feedForward(self):
         inputValue = self.startNode.output

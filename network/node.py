@@ -1,13 +1,13 @@
 import random
-import activation as AF
+from .activation import *
 
 class Node:
     def __init__(self, isInput, isOutput, activation='linear'):
         self.isInput = isInput
         self.isOutput = isOutput
-        self.activation = AF.activationFunctions[activation]
+        self.activation = activationFunctions[activation]()
     
-        self.bias = 0# (random.random()*2)-1 # This scales the bias to be between -1 and 1
+        self.bias = (random.random()*2)-1 # This scales the bias to be between -1 and 1
 
         self.output = None
     
