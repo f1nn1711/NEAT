@@ -13,6 +13,8 @@ class Bird:
         self.velocity = 0
         self.terminalVelocity = 50
 
+        self.crashed = False
+
         self.jumpForce = -5
     
     def step(self):
@@ -26,7 +28,7 @@ class Bird:
     def jump(self):
         self.velocity = self.jumpForce
 
-    def checkCollision(pipe):
+    def checkCollision(self, pipe, crashedAt):
 
         # rectA's are the bird
         # rectB's are the top pipe
@@ -48,7 +50,7 @@ class Bird:
 
         if (rectAX1 < rectBX2 and rectAX2 > rectBX1 and rectAY1 < rectBY2 and rectAY2 > rectBY1) or (rectAX1 < rectCX2 and rectAX2 > rectCX1 and rectAY1 < rectCY2 and rectAY2 > rectCY1):
 
-            print('collision')
+            self.crashed = crashedAt
 
     def render(self, screen):
         pygame.draw.rect(screen, (0,255,0), [self.x, self.y, self.width, self.height])
@@ -59,7 +61,7 @@ class Pipe:
         self.screenHeigth = screenHeigth
         self.x = screenWidth
         self.pipeWidth = 50
-        self.gapSize = 100
+        self.gapSize = 175
         self.gapY = random.randint(0, self.screenHeigth-self.gapSize)
         self.speed = speed
     
@@ -75,7 +77,7 @@ class Environment:
         self.width = 500
         self.height = 750
 
-        self.pipeFreqency = 400
+        self.pipeFreqency = 200
         self.pipes = []
 
         self.doRender = doRender
@@ -105,7 +107,14 @@ class Environment:
             pipe.render(self.screen)
         
         for bird in self.birds:
+            print(bird.crashed)
+            if bird.crashed:
+                continue
+
             bird.step()
+            for pipe in self.pipes:
+                bird.checkCollision(pipe, self.stepCount)
+
             bird.render(self.screen)
 
         pygame.display.update()
