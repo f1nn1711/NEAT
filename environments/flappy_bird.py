@@ -4,12 +4,12 @@ import random
 GRAVITY = 0.2
 
 class Bird:
-    def __init__(self):
+    def __init__(self, screenHeight):
         self.x = 20
         self.y = 50
         self.width = 50
         self.height = 50
-
+        self.screenHeight = screenHeight
         self.velocity = 0
         self.terminalVelocity = 50
 
@@ -30,6 +30,9 @@ class Bird:
 
     def checkCollision(self, pipe, crashedAt):
 
+        if self.y < 0 or self.y > (self.screenHeight-self.height):
+            self.crashed = crashedAt
+            sys.exit()
         # rectA's are the bird
         # rectB's are the top pipe
         # rectC's are the bottom pipe
@@ -91,7 +94,7 @@ class Environment:
             self.clock = pygame.time.Clock()
 
         
-        self.birds = [Bird()]
+        self.birds = [Bird(self.height)]
     
     def step(self):
         if self.stepCount % self.pipeFreqency == 0:
