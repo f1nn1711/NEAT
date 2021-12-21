@@ -27,21 +27,24 @@ class Network:
         self.hiddenNodes.append(Node(isInput, inOutput, activation))
     
     def addConnection(self, startNode=None, endNode=None):
-        if (not startNode) or (not endNode):
-            fromNodes = self.inputNodes+self.hiddenNodes
-            startNode = random.choice(fromNodes)
-
-            toNodes = self.outputNodes + self.hiddenNodes
-
-            isValid = False
-            while not isValid:
-                endNode = random.choice(toNodes)
-
-                if endNode != startNode:
-                    isValid = True
-
+        if startNode and endNode:
             newConnection = Connection(startNode, endNode)
         else:
+            if not startNode:
+                fromNodes = self.inputNodes+self.hiddenNodes
+                startNode = random.choice(fromNodes)
+            
+            if not endNode:
+                toNodes = self.outputNodes + self.hiddenNodes
+
+                isValid = False
+                while not isValid:
+                    endNode = random.choice(toNodes)
+
+                    if endNode != startNode:
+                        isValid = True
+
+
             newConnection = Connection(startNode, endNode)
 
         self.connections.append(newConnection)
@@ -93,6 +96,12 @@ class Network:
                 continueFProp = False
 
         # set the outputs of all of them to None
+        for node in self.hiddenNodes:
+            node.output = None
+
+        for node in self.outputNodes:
+            node.output = None
+
         # return all the output values
         return networkOutput
     
