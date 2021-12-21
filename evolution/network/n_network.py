@@ -24,7 +24,9 @@ class Network:
             self.outputNodes.append(Node(False, True, self.outputActivation))
     
     def addNode(self, isInput=False, inOutput=False, activation='linear'):
-        self.hiddenNodes.append(Node(isInput, inOutput, activation))
+        newNode = Node(isInput, inOutput, activation)
+        self.hiddenNodes.append(newNode)
+        return newNode
     
     def addConnection(self, startNode=None, endNode=None):
         if startNode and endNode:
