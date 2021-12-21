@@ -1,0 +1,9 @@
+{
+    "populationSize": 100,
+    "networkInputs": 5,
+    "networkOutputs": 1,
+    "initHiddenNodes": 0,
+    "initConnections": 1,
+    "forceNewNodeConnections": false,
+    "ouputActivationFunction": "sigmoid"
+}
