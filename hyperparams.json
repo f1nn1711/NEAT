@@ -4,6 +4,16 @@
     "networkOutputs": 1,
     "initHiddenNodes": 0,
     "initConnections": 1,
+    "ouputActivationFunction": "sigmoid",
+    "higherIsBetter": true,
     "forceNewNodeConnections": false,
-    "ouputActivationFunction": "sigmoid"
+    "survivalRate": 0.4,
+    "nodeMutationRate": 0,
+    "nodeMutationDecay": 0,
+    "connectionMutationRate": 0,
+    "connectionMutationDecay": 0,
+    "weightMutationRate": 0,
+    "weightMutationDecay": 0,
+    "biasMutationRate": 0,
+    "biasMutationDecay": 0
 }
