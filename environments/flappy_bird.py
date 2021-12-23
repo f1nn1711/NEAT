@@ -45,7 +45,7 @@ class Bird:
     def checkCollision(self, pipe, crashedAt):
 
         if self.y < 0 or self.y > (self.screenHeight-self.height):
-            self.crashed = crashedAt
+            self.setCrashed(crashedAt)
             self.colour = (137, 52, 235)
             return
 
@@ -68,11 +68,17 @@ class Bird:
         rectCY2 = pipe.screenHeigth
 
         if (rectAX1 < rectBX2 and rectAX2 > rectBX1 and rectAY1 < rectBY2 and rectAY2 > rectBY1) or (rectAX1 < rectCX2 and rectAX2 > rectCX1 and rectAY1 < rectCY2 and rectAY2 > rectCY1):
-            self.crashed = crashedAt
+            self.setCrashed(crashedAt)
             self.colour = (137, 52, 235)
 
     def render(self, screen):
         pygame.draw.rect(screen, self.colour, [self.x, self.y, self.width, self.height])
+    
+    def getCrashed(self):
+        return self.crashed
+    
+    def setCrashed(self, crashedValue):
+        self.crashed = crashedValue
 
 class Pipe:
     def __init__(self, screenWidth, screenHeigth, speed, gapSize=100):

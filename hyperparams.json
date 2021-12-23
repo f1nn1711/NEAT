@@ -7,7 +7,6 @@
     "ouputActivationFunction": "sigmoid",
     "higherIsBetter": true,
     "forceNewNodeConnections": false,
-    "survivalRate": 0.4,
     "nodeMutationRate": 0,
     "nodeMutationDecay": 0,
     "connectionMutationRate": 0,
