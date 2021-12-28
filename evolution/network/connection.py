@@ -14,4 +14,7 @@ class Connection:
             return None
         
         return inputValue * self.weight
+    
+    def mutate(self):
+        self.weight = (random.random()*2)-1
 

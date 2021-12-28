@@ -8,6 +8,8 @@ class Population:
         self.population = []
         self.generation = 1
 
+        self.config = config
+
         for n in range(self.size):
             newAgent = Agent(
                 config['networkInputs'],
@@ -27,10 +29,10 @@ class Population:
         agentsDict = []
 
         for agent in self.population:
-            pool.append{
+            agentsDict.append({
                 'fitness': agent.fitness,
                 'agent': agent
-            }
+            })
         
         agentsDict = sorted(agentsDict, key = lambda i: i['fitness'])
 
@@ -47,23 +49,27 @@ class Population:
 
         newGeneration = []
 
+        print(len(pool))
         for n in range(self.size):
             newGeneration.append(copy.deepcopy(random.choice(pool)))
 
-            if random.random() < config['nodeMutationRate']*(config['nodeMutationDecay']**self.generation):
-                newGeneration[n].addNode(config['forceNewNodeConnections'])
+            if random.random() < self.config['nodeMutationRate']*((1-self.config['nodeMutationDecay'])**self.generation):
+                newGeneration[n].addNode(self.config['forceNewNodeConnections'])
             
-            if random.random() < config['connectionMutationRate']*(config['connectionMutationDecay']**self.generation):
+            if random.random() < self.config['connectionMutationRate']*((1-self.config['connectionMutationDecay'])**self.generation):
                 newGeneration[n].addConnection()
             
+            print(newGeneration)
+            print(newGeneration[n].getConnections())
             for connection in newGeneration[n].getConnections():
-                pass
+                if random.random() < self.config['weightMutationRate']*((1-self.config['weightMutationDecay'])**self.generation):
+                    connection.mutate()
 
             for node in newGeneration[n].getNodes():
-                pass
+                if random.random() < self.config['biasMutationRate']*((1-self.config['biasMutationDecay'])**self.generation):
+                    node.mutate()
 
         self.population = newGeneration
-
 
         self.generation += 1
 
@@ -75,7 +81,7 @@ class Agent:
         newNode = self.neuralNetwork.addNode()
         
         if addConn:
-            self..addConnection(endNode=newNode)
+            self.addConnection(endNode=newNode)
             self.addConnection(startNode=newNode)
         
         return newNode
@@ -90,7 +96,7 @@ class Agent:
         self.fitness = fitness
     
     def getConnections(self):
-        pass
+        return self.neuralNetwork.getConnections()
     
     def getNodes(self):
-        pass
+        return self.neuralNetwork.getNodes()

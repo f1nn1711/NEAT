@@ -15,3 +15,6 @@ class Node:
         summedValues = sum(inputValues) + self.bias
         self.output = self.activation.transform(summedValues)
         return self.output
+    
+    def mutate(self):
+        self.bias = (random.random()*2)-1

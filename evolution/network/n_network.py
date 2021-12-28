@@ -117,3 +117,9 @@ class Network:
         tunableParams = len(self.connections)+len(self.outputNodes)+len(self.hiddenNodes)+len(self.inputNodes)
         print(f'Tunable Parameters: {tunableParams}')
         print('-'*40)
+    
+    def getConnections(self):
+        return self.connections
+    
+    def getNodes(self):
+        return self.inputNodes+self.hiddenNodes+self.outputNodes

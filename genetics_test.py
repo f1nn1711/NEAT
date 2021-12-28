@@ -1,5 +1,6 @@
 import evolution.population as genetics
 import environments.flappy_bird as flappyBird
+import visulize.visulizeNetwork as vis
 import json
 import pygame
 import random
@@ -41,21 +42,9 @@ while mainloop:
 
         count += 1
         obs = bird.getObservation(relDistToPipe, topY, bottomY).values()
-        '''
-        if random.random() > 0.97:
-            bird.jump()
-
-        #print(agent.getNetworkResponse(obs)[0])
-        '''
-
         
         if (result := agent.getNetworkResponse(obs)[0]) > 0.5:
             bird.jump()
-            
-        
-        
-    
-
 
     ########
 
@@ -65,6 +54,11 @@ while mainloop:
     renderResult = env.render()
 
     if not renderResult:
-        # Create new population
-        sys.exit()
+        # Do the genetics related things
+        for bird, agent in zip(env.birds, pop.population):
+            agent.setFitness(bird.getCrashed())
+        
+        pop.generateEvolvedPopulation()
+
+        env.reset()
 

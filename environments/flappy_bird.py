@@ -98,7 +98,7 @@ class Pipe:
         self.x -= self.speed
 
 class Environment:
-    def __init__(self, birds=1, doRender=False):
+    def __init__(self, nBirds=1, doRender=False):
         self.width = 500
         self.height = 750
 
@@ -109,6 +109,8 @@ class Environment:
 
         self.stepCount = 1
 
+        self.nBirds = nBirds
+
         if self.doRender:
             pygame.init()
 
@@ -116,7 +118,13 @@ class Environment:
             self.clock = pygame.time.Clock()
 
         
-        self.birds = [Bird(self.height) for n in range(birds)]
+        self.birds = [Bird(self.height) for n in range(self.nBirds)]
+        self.pipes.append(Pipe(self.width, self.height, 2))
+    
+    def reset(self):
+        self.pipes = []
+        self.stepCount = 1
+        self.birds = [Bird(self.height) for n in range(self.nBirds)]
         self.pipes.append(Pipe(self.width, self.height, 2))
     
     def step(self):
@@ -132,16 +140,10 @@ class Environment:
             pipe.step()
             pipe.render(self.screen)
 
-        for bird in self.birds:
-            print(f'after pipe vel {bird.velocity}')
-
         pipesCopy = self.pipes.copy()
         for pipe in pipesCopy:
             if pipe.x+pipe.pipeWidth < 0:
                 self.pipes.remove(pipe)
-
-        for bird in self.birds:
-            print(f'after pipe rem {bird.velocity}')
 
         relDistToPipe = (self.pipes[0].x-self.birds[0].x) / self.width
         topY = self.pipes[0].gapY
@@ -153,10 +155,8 @@ class Environment:
                 crashedCount += 1
                 continue
             
-            # print(bird.getObservation(relDistToPipe, topY, bottomY))
-            print(f'pre step vel {bird.velocity}')
             bird.step()
-            print(f'after step vel {bird.velocity}')
+
             for pipe in self.pipes:
                 bird.checkCollision(pipe, self.stepCount)
 
