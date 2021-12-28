@@ -11,7 +11,14 @@ with open('hyperparams.json', 'r') as f:
 
 pop = genetics.Population(config)
 
-env = flappyBird.Environment(config['populationSize'], True)
+visulizer = vis.Visulizer(50,50,100,150,None)
+
+
+env = flappyBird.Environment(config['populationSize'], True, visulizer)
+
+visulizer.screen = env.screen
+
+visulizer.updateNetwork(pop.population[0].neuralNetwork)
 
 mainloop = True
 
@@ -52,6 +59,7 @@ while mainloop:
     env.step()
 
     renderResult = env.render()
+    visulizer.render()
 
     if not renderResult:
         # Do the genetics related things

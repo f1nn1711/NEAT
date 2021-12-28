@@ -98,7 +98,7 @@ class Pipe:
         self.x -= self.speed
 
 class Environment:
-    def __init__(self, nBirds=1, doRender=False):
+    def __init__(self, nBirds=1, doRender=False, visulizer=None):
         self.width = 500
         self.height = 750
 
@@ -106,6 +106,8 @@ class Environment:
         self.pipes = []
 
         self.doRender = doRender
+
+        self.visulizer = visulizer
 
         self.stepCount = 1
 
@@ -132,6 +134,9 @@ class Environment:
             self.pipes.append(Pipe(self.width, self.height, 2))
 
         self.stepCount += 1
+    
+    def updateVisulizerNetwork(self, network):
+        self.visulizer.network = network
     
     def render(self):
         self.screen.fill((66,205,255))
@@ -164,6 +169,9 @@ class Environment:
         
         if crashedCount == len(self.birds):
             return 0
+        
+        if self.visulizer:
+            self.visulizer.render()
 
         pygame.display.update()
         self.clock.tick(60)
