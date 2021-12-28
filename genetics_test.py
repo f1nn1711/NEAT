@@ -21,14 +21,32 @@ visulizer.screen = env.screen
 visulizer.updateNetwork(pop.population[0].neuralNetwork)
 
 mainloop = True
+prevKeys = []
+paused = False
 
 while mainloop:
+    '''
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_p] and pygame.K_p not in prevKeys:
+        paused = not paused
+
+    prevKeys = keys
+    '''
+
     
     #Itterates through all the events that have happend in the frame
     for event in pygame.event.get():
         #Quit the program if the user clicks the 'X'
         if event.type == pygame.QUIT:
             sys.exit()
+
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_p]:
+        continue
+
+    if paused:
+        continue
 
     #### LOGIC FOR DECIDING BIRD ACTION ####
     '''
@@ -59,6 +77,12 @@ while mainloop:
     env.step()
 
     renderResult = env.render()
+
+    for bird, agent in zip(env.birds, pop.population):
+        if not bird.crashed:
+            visulizer.updateNetwork(agent.neuralNetwork)
+            break
+    
     visulizer.render()
 
     if not renderResult:
