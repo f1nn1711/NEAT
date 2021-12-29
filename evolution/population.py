@@ -53,20 +53,20 @@ class Population:
         for n in range(self.size):
             newGeneration.append(copy.deepcopy(random.choice(pool)))
 
-            if random.random() < self.config['nodeMutationRate']*((1-self.config['nodeMutationDecay'])**self.generation):
+            if random.random() < self.config['nodeMutationRate']*((1-self.config['nodeMutationDecay'])**(self.generation-1)):
                 newGeneration[n].addNode(self.config['forceNewNodeConnections'])
             
-            if random.random() < self.config['connectionMutationRate']*((1-self.config['connectionMutationDecay'])**self.generation):
+            if random.random() < self.config['connectionMutationRate']*((1-self.config['connectionMutationDecay'])**(self.generation-1)):
                 newGeneration[n].addConnection()
             
             print(newGeneration)
             print(newGeneration[n].getConnections())
             for connection in newGeneration[n].getConnections():
-                if random.random() < self.config['weightMutationRate']*((1-self.config['weightMutationDecay'])**self.generation):
+                if random.random() < self.config['weightMutationRate']*((1-self.config['weightMutationDecay'])**(self.generation-1)):
                     connection.mutate()
 
             for node in newGeneration[n].getNodes():
-                if random.random() < self.config['biasMutationRate']*((1-self.config['biasMutationDecay'])**self.generation):
+                if random.random() < self.config['biasMutationRate']*((1-self.config['biasMutationDecay'])**(self.generation-1)):
                     node.mutate()
 
         self.population = newGeneration

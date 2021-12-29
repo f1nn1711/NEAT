@@ -25,15 +25,6 @@ prevKeys = []
 paused = False
 
 while mainloop:
-    '''
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_p] and pygame.K_p not in prevKeys:
-        paused = not paused
-
-    prevKeys = keys
-    '''
-
-    
     #Itterates through all the events that have happend in the frame
     for event in pygame.event.get():
         #Quit the program if the user clicks the 'X'
@@ -43,9 +34,6 @@ while mainloop:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_p]:
-        continue
-
-    if paused:
         continue
 
     #### LOGIC FOR DECIDING BIRD ACTION ####
