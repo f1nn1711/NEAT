@@ -49,7 +49,7 @@ class Population:
 
         newGeneration = []
 
-        print(len(pool))
+        # print(len(pool))
         for n in range(self.size):
             newGeneration.append(copy.deepcopy(random.choice(pool)))
 
@@ -59,8 +59,8 @@ class Population:
             if random.random() < self.config['connectionMutationRate']*((1-self.config['connectionMutationDecay'])**(self.generation-1)):
                 newGeneration[n].addConnection()
             
-            print(newGeneration)
-            print(newGeneration[n].getConnections())
+            # print(newGeneration)
+            # print(newGeneration[n].getConnections())
             for connection in newGeneration[n].getConnections():
                 if random.random() < self.config['weightMutationRate']*((1-self.config['weightMutationDecay'])**(self.generation-1)):
                     connection.mutate()
