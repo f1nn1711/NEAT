@@ -1,6 +1,7 @@
 from .node import *
 from .connection import *
 import random
+import json
 
 class Network:
     def __init__(self, nInput, nOutput, outputActivation='linear'):
@@ -123,3 +124,70 @@ class Network:
     
     def getNodes(self):
         return self.inputNodes+self.hiddenNodes+self.outputNodes
+    
+    def getNetworkJSON(self):
+        '''
+        {
+            "nodes": [
+                {
+                    "isOutput": false,
+                    "isInput": true,
+                    "activation": "sigmoid",
+                    "bias": -0.5683
+                },
+                {
+                    "isOutput": false,
+                    "isInput": false,
+                    "activation": "sigmoid",
+                    "bias": 0.87384728
+                },
+                {
+                    "isOutput": true,
+                    "isInput": false,
+                    "activation": "binary",
+                    "bias": 0.15363
+                }
+            ],
+            "connections": [
+                {
+                    "start": 0,
+                    "end": 1,
+                    "weight" -0.8982
+                },
+                {
+                    "start": 1,
+                    "end": 2,
+                    "weight" 0.5931
+                }
+            ]
+        }
+        '''
+        networkDict = {
+            "nodes": [],
+            "connections": []
+        }
+
+        networkNodes = self.outputNodes+self.hiddenNodes+self.inputNodes
+        for node in networkNodes:
+            nodeDict = {
+                "isOutput": node.isOutput,
+                "isInput": node.isInput,
+                "activation": node.activation.name,
+                "bias": node.bias
+            }
+
+            networkDict["nodes"].append(nodeDict)
+        
+        for connection in self.connections:
+            connectionDict = {
+                "start": networkNodes.index(connection.startNode),
+                "end": networkNodes.index(connection.endNode),
+                "weight": connection.weight
+            }
+
+            networkDict["connections"].append(connectionDict)
+        
+        print(json.dumps(networkDict))
+
+    def saveNetwork(self):
+        pass
