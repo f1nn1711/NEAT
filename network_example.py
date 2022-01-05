@@ -25,4 +25,4 @@ neuralNetwork.addConnection(
 
 output = neuralNetwork.run([2])
 print(output) # This should return [0.6296103610471014]
-neuralNetwork.getNetworkJSON()
+neuralNetwork.saveNetwork()

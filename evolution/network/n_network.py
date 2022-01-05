@@ -2,6 +2,8 @@ from .node import *
 from .connection import *
 import random
 import json
+import os
+import time
 
 class Network:
     def __init__(self, nInput, nOutput, outputActivation='linear'):
@@ -187,7 +189,12 @@ class Network:
 
             networkDict["connections"].append(connectionDict)
         
-        print(json.dumps(networkDict))
+        return json.dumps(networkDict)
 
-    def saveNetwork(self):
-        pass
+    def saveNetwork(self, path='saves/', prefix=''):
+        fileName = prefix + str(round(time.time())) + '.json'
+        fileData = self.getNetworkJSON()
+
+        with open(path+fileName, 'w') as f:
+            f.write(fileData)
+            f.close()
