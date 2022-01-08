@@ -108,7 +108,7 @@ class Platform:
         else:
             return self.screenWidth-self.platformSize
     
-    def getVerticies(self):
+    def getTopVerticies(self):
         verticies = {
             "TL": [
                 self.getX(),
@@ -117,14 +117,6 @@ class Platform:
             "TR": [
                 self.getX()+self.platformSize,
                 self.y
-            ],
-            "BL": [
-                self.getX(),
-                self.y+self.thickness
-            ],
-            "BR": [
-                self.getX()+self.platformSize,
-                self.y+self.thickness
             ]
         }
 
@@ -224,7 +216,7 @@ class Environment:
     
     def verticiesInCell(self, verticies, point1, point2):
         for vertex in verticies:
-            if point1[0] < verticies[vertex][0] < point2[0] and point1[1] < verticies[vertex][1] < point2[1]:
+            if point1[0] <= verticies[vertex][0] <= point2[0] and point1[1] <= verticies[vertex][1] <= point2[1]:
                 return True
 
         return False
@@ -259,7 +251,7 @@ class Environment:
                 cellObservation = 0
                 # loop through each platform
                 for platform in self.platforms:
-                    platformVerticies = platform.getVerticies()
+                    platformVerticies = platform.getTopVerticies()
                     # check if the corners are in the cell
                     if self.getCellObservation(
                         platformVerticies,
@@ -272,6 +264,7 @@ class Environment:
                 rowObs.append(cellObservation)
 
             observations.append(rowObs)
+        
         print('-'*20)
         print(observations)
         return observations
