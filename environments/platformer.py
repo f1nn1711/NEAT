@@ -107,6 +107,28 @@ class Platform:
             return 0
         else:
             return self.screenWidth-self.platformSize
+    
+    def getVerticies(self):
+        verticies = {
+            "TL": [
+                self.getX(),
+                self.y
+            ],
+            "TR": [
+                self.getX()+self.platformSize,
+                self.y
+            ],
+            "BL": [
+                self.getX(),
+                self.y+self.thickness
+            ],
+            "BR": [
+                self.getX()+self.platformSize,
+                self.y+self.thickness
+            ]
+        }
+
+        return verticies
 
     def move(self, delta):
         self.y += delta
@@ -199,20 +221,59 @@ class Environment:
         self.clock.tick(60)
         #print(f'FPS: {self.clock.get_fps()}')
         return 1
+    
+    def verticiesInCell(self, verticies, point1, point2):
+        for vertex in verticies:
+            if point1[0] < verticies[vertex][0] < point2[0] and point1[1] < verticies[vertex][1] < point2[1]:
+                return True
+
+        return False
+    
+    def linesInCell(self, verticies, point1, point2):
+        if point1[0] > verticies["TL"][0] and verticies["TR"][0] > point2[0] and point1[1] < verticies["TL"][1] < point2[1]:
+            return True
+
+        return False
+    
+    def getCellObservation(self, verticies, point1, point2):
+        if self.verticiesInCell(
+            verticies,
+            point1,
+            point2
+        ) or self.linesInCell(
+            verticies,
+            point1,
+            point2
+        ):
+            return 1
+        
+        return 0
 
     def getEnvironment(self):
         observations = []
         for row in range(self.height//self.cellSize):
             rowObs = []
+            cellY = row * self.cellSize
             for col in range(self.width//self.cellSize):
+                cellX = col * self.cellSize
+                cellObservation = 0
                 # loop through each platform
-                # check if the points are in the cell
-                # check if the horizontal lines of the platform pass through the cell
-                # if either of the 2 above are true the observation is 1, else it is a 0
-                pass
+                for platform in self.platforms:
+                    platformVerticies = platform.getVerticies()
+                    # check if the corners are in the cell
+                    if self.getCellObservation(
+                        platformVerticies,
+                        [cellX, cellY],
+                        [cellX+self.cellSize, cellY+self.cellSize]
+                    ):
+                        cellObservation = 1
+                        break
+                
+                rowObs.append(cellObservation)
 
             observations.append(rowObs)
-
+        print('-'*20)
+        print(observations)
         return observations
 
 
@@ -245,3 +306,5 @@ if __name__ == '__main__':
 
         env.step()
         env.render()
+
+        env.getEnvironment()
