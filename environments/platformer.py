@@ -127,8 +127,9 @@ class Environment:
 
         self.leftSide = False
         
-        self.yVel = 1
-        self.platformFrequency = 175
+        self.spacingAdjustment = 0
+        self.yVel = 1*(1+self.spacingAdjustment)
+        self.platformFrequency = 170*(1-self.spacingAdjustment)
         self.frameCount = 0
 
         self.platforms = []
