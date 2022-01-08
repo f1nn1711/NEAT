@@ -13,19 +13,13 @@ class Player:
         self.screenHeight = screenHeight
         self.yVelocity = 0
         self.terminalYVelocity = 50
-
         self.xVelocity = 0
         self.xAcceleration = 1
         self.terminalXVelocity = 5
-
         self.colour = (0, 255, 0)
-
-        self.canJump = True
-
+        self.canJump = False
         self.dampening = 0.95
-
         self.crashed = False
-
         self.jumpForce = -8
     
     def doActions(self, actions={'jump': False, 'left': False, 'right': False}):
@@ -39,12 +33,17 @@ class Player:
     
         if actions['right']:
             self.xVelocity += self.xAcceleration
+    
+    def getCrashed(self):
+        return self.crashed
 
-    def checkBoundries(self):
+    def checkBoundries(self, frame):
         if self.y+self.height > self.screenHeight:
             self.colour = (0, 0, 255)
+            self.crashed = frame
         elif self.y < 0:
             self.colour = (0, 0, 255)
+            self.crashed = frame
 
         if self.x < -self.width:
             self.x = self.screenWidth-self.width
@@ -52,7 +51,7 @@ class Player:
             self.x = 0
 
     
-    def step(self, platforms):
+    def step(self, platforms, frame):
         self.yVelocity += GRAVITY
 
         if self.yVelocity > self.terminalYVelocity:
@@ -85,7 +84,7 @@ class Player:
 
         self.x += self.xVelocity
 
-        self.checkBoundries()
+        self.checkBoundries(frame)
     
     def render(self, screen):
         pygame.draw.rect(screen, self.colour, [self.x, self.y, self.width, self.height])
@@ -144,13 +143,7 @@ class Environment:
         self.spacingAdjustment = 0
         self.yVel = 1*(1+self.spacingAdjustment)
         self.platformFrequency = 170*(1-self.spacingAdjustment)
-        self.frameCount = 0
-
-        self.platforms = []
-
         self.doRender = doRender
-
-        self.players = [Player(self.width, self.height) for n in range(self.nPlayers)]
 
         if self.doRender:
             pygame.init()
@@ -158,11 +151,18 @@ class Environment:
             self.screen = pygame.display.set_mode((self.width, self.height))
             self.clock = pygame.time.Clock()
 
-        for n in range(200):
-            self.step()
+        self.setup()
     
+    def setup(self):
+        self.frameCount = 0
+        self.platforms = []
+        self.players = [Player(self.width, self.height) for n in range(self.nPlayers)]
+
+        for n in range(300):
+            self.step()
+
     def reset(self):
-        pass
+        self.setup()
     
     def step(self):
         if self.frameCount % self.platformFrequency == 0:
@@ -188,7 +188,6 @@ class Environment:
     def render(self):
         self.screen.fill((0,0,0))
 
-        
         if self.visulizer:
             self.visulizer.render()
 
@@ -205,13 +204,22 @@ class Environment:
 
             formattedPlatforms.append(formattedPlatform)
         
+        crashedCount = 0
         for player in self.players:
             player.step(formattedPlatforms)
+            if player.crashed != False:
+                crashedCount += 1
+                continue
+            
             player.render(self.screen)
+
 
         pygame.display.update()
         self.clock.tick(60)
         #print(f'FPS: {self.clock.get_fps()}')
+        if crashedCount == len(self.players):
+            return 0
+        
         return 1
     
     def verticiesInCell(self, verticies, point1, point2):
