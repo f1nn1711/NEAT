@@ -1,0 +1,18 @@
+{
+    "populationSize": 100,
+    "networkInputs": 152,
+    "networkOutputs": 3,
+    "initHiddenNodes": 0,
+    "initConnections": 0,
+    "ouputActivationFunction": "sigmoid",
+    "higherIsBetter": true,
+    "forceNewNodeConnections": false,
+    "nodeMutationRate": 0.01,
+    "nodeMutationDecay": 0.01,
+    "connectionMutationRate": 0.8,
+    "connectionMutationDecay": 0.8,
+    "weightMutationRate": 0.1,
+    "weightMutationDecay": 0.01,
+    "biasMutationRate": 0.1,
+    "biasMutationDecay": 0.01
+}
