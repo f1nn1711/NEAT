@@ -1,6 +1,8 @@
 from .network import n_network
 import random
 import copy
+import os
+import json
 
 class Population:
     def __init__(self, config):
@@ -11,16 +13,28 @@ class Population:
         self.config = config
 
         for n in range(self.size):
+            if (saveFile := self.config['loadFromSave']):
+                dirname = os.path.dirname(__file__)
+                filename = os.path.join(dirname, saveFile)
+
+                with open(filename, 'r') as f:
+                    networkJson = json.loads(f.read())
+
+                newAgent = Agent(jsonData=networkJson)
+
+                self.population.append(newAgent)
+                continue
+
             newAgent = Agent(
-                config['networkInputs'],
-                config['networkOutputs'],
-                config['ouputActivationFunction']
+                self.config['networkInputs'],
+                self.config['networkOutputs'],
+                self.config['ouputActivationFunction']
             )
 
-            for n in range(config['initHiddenNodes']):
-                newNode = newAgent.addNode(config['forceNewNodeConnections'])
+            for n in range(self.config['initHiddenNodes']):
+                newNode = newAgent.addNode(self.config['forceNewNodeConnections'])
             
-            for n in range(config['initConnections']):
+            for n in range(self.config['initConnections']):
                 newAgent.addConnection()
 
             self.population.append(newAgent)
@@ -36,6 +50,9 @@ class Population:
         
         agentsDict = sorted(agentsDict, key = lambda i: i['fitness'])
 
+        if self.config['saveProgress']:
+            self.saveAgent(agentsDict[-1]['agent'])
+
         pool = []
 
         for n, agent in enumerate(agentsDict):
@@ -43,6 +60,9 @@ class Population:
                 pool.append(agent['agent'])
 
         return pool
+    
+    def saveAgent(self, agent):
+        agent.neuralNetwork.saveNetwork(prefix=f'gen-{self.generation}-')
     
     def generateEvolvedPopulation(self):
         pool = self.generatePool()
@@ -74,7 +94,11 @@ class Population:
         self.generation += 1
 
 class Agent:
-    def __init__(self, networkInputs, networkOutputs, outputActivation):
+    def __init__(self, networkInputs=1, networkOutputs=1, outputActivation='sigmoid', jsonData=None):
+        if jsonData:
+            self.neuralNetwork = n_network.Network(networkJson=jsonData)
+            return
+
         self.neuralNetwork = n_network.Network(networkInputs, networkOutputs, outputActivation)
     
     def addNode(self, addConn):

@@ -17,4 +17,7 @@ class Connection:
     
     def mutate(self):
         self.weight = (random.random()*2)-1
+    
+    def setWeight(self, weight):
+        self.weight = weight
 

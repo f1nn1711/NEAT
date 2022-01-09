@@ -6,7 +6,11 @@ import os
 import time
 
 class Network:
-    def __init__(self, nInput, nOutput, outputActivation='linear'):
+    def __init__(self, nInput=1, nOutput=1, outputActivation='linear', networkJson=None):
+        if networkJson:
+            self.loadNetworkFromJson(networkJson)
+            return
+
         self.nInput = nInput
         self.nOutput = nOutput
         self.outputActivation = outputActivation
@@ -127,43 +131,10 @@ class Network:
     def getNodes(self):
         return self.inputNodes+self.hiddenNodes+self.outputNodes
     
+    def setNetworkFromSave(self, fileName):
+        pass
+    
     def getNetworkJSON(self):
-        '''
-        {
-            "nodes": [
-                {
-                    "isOutput": false,
-                    "isInput": true,
-                    "activation": "sigmoid",
-                    "bias": -0.5683
-                },
-                {
-                    "isOutput": false,
-                    "isInput": false,
-                    "activation": "sigmoid",
-                    "bias": 0.87384728
-                },
-                {
-                    "isOutput": true,
-                    "isInput": false,
-                    "activation": "binary",
-                    "bias": 0.15363
-                }
-            ],
-            "connections": [
-                {
-                    "start": 0,
-                    "end": 1,
-                    "weight" -0.8982
-                },
-                {
-                    "start": 1,
-                    "end": 2,
-                    "weight" 0.5931
-                }
-            ]
-        }
-        '''
         networkDict = {
             "nodes": [],
             "connections": []
@@ -190,6 +161,41 @@ class Network:
             networkDict["connections"].append(connectionDict)
         
         return json.dumps(networkDict)
+
+    def loadNetworkFromJson(self, networkJson):
+        self.nInput = 0
+        self.nOutput = 0
+        self.outputActivation = 'linear'
+
+        self.inputNodes = []
+        self.hiddenNodes = []
+        self.outputNodes = []
+        self.connections = []
+
+        for node in networkJson['nodes']:
+            if node['isInput']:
+                newNode = Node(True, False, node['activation'])
+                newNode.setBias(node['bias'])
+                self.inputNodes.append(newNode)
+            elif node['isOutput']:
+                newNode = Node(False, True, node['activation'])
+                newNode.setBias(node['bias'])
+
+                self.outputNodes.append(newNode)
+            else:
+                newNode = Node(False, False, node['activation'])
+                newNode.setBias(node['bias'])
+
+                self.hiddenNodes.append(newNode)
+        
+        self.nInput = len(self.inputNodes)
+        self.nOutput = len(self.outputNodes)
+
+        networkNodes = self.outputNodes+self.hiddenNodes+self.inputNodes
+        for connection in networkJson['connections']:
+            newConnection = Connection(networkNodes[connection['start']], networkNodes[connection['end']])
+            newConnection.setWeight(connection['weight'])
+            self.connections.append(newConnection)
 
     def saveNetwork(self, path='saves/', prefix=''):
         fileName = prefix + str(round(time.time())) + '.json'

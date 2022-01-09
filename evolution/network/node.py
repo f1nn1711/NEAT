@@ -18,3 +18,6 @@ class Node:
     
     def mutate(self):
         self.bias = (random.random()*2)-1
+    
+    def setBias(self, bias):
+        self.bias = bias
