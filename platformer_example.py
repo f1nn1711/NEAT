@@ -4,8 +4,9 @@ import visulize.visulizeNetwork as vis
 import json
 import pygame
 import random
+import list_functions as lf
 
-with open('hyperparams.json', 'r') as f:
+with open('hyperparams-platformer.json', 'r') as f:
     config = json.loads(f.read())
 
 
@@ -37,6 +38,8 @@ while mainloop:
         continue
     
     count = 0
+    environmentObs = env.getEnvironment()
+    environmentObs = lf.flattenList(environmentObs)
     for player, agent in zip(env.players, pop.population):
 
         count += 1
@@ -48,11 +51,13 @@ while mainloop:
         ...
         n
         '''
-        obs = bird.getObservation(relDistToPipe, topY, bottomY).values()
-        
-        if (result := agent.getNetworkResponse(obs)[0]) > 0.5:
-            bird.jump()
-            player.doActions({'jump': random.random() > 0.5, 'left': random.random() > 0.7, 'right': random.random() > 0.7})
+        obs = environmentObs.copy()
+        obs.append(player.getRelX())
+        obs.append(player.getRelY())
+
+        networkResult = agent.getNetworkResponse(obs)
+
+        player.doActions({'jump': networkResult[0] > 0.5, 'left': networkResult[1] > 0.5, 'right': networkResult[2] > 0.5})
 
     env.step()
 

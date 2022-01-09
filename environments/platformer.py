@@ -88,6 +88,12 @@ class Player:
     
     def render(self, screen):
         pygame.draw.rect(screen, self.colour, [self.x, self.y, self.width, self.height])
+    
+    def getRelX(self):
+        return self.x / self.screenWidth
+
+    def getRelY(self):
+        return self.y / self.screenHeight
 
 
 class Platform:
@@ -206,7 +212,7 @@ class Environment:
         
         crashedCount = 0
         for player in self.players:
-            player.step(formattedPlatforms)
+            player.step(formattedPlatforms, self.frameCount)
             if player.crashed != False:
                 crashedCount += 1
                 continue
@@ -273,8 +279,6 @@ class Environment:
 
             observations.append(rowObs)
         
-        print('-'*20)
-        print(observations)
         return observations
 
 
