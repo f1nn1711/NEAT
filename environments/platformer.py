@@ -50,7 +50,6 @@ class Player:
         elif self.x > self.screenWidth:
             self.x = 0
 
-    
     def step(self, platforms, frame):
         self.yVelocity += GRAVITY
 
@@ -62,8 +61,7 @@ class Player:
         
         self.xVelocity *= self.dampening
 
-
-        # loop through each platform,
+        # loop through each platform
         forcedY = False
         for platform in platforms:
             # if the player startX<playerx<endx-player width
@@ -99,10 +97,8 @@ class Player:
 class Platform:
     def __init__(self, isLeft, screenWidth, screenHeight):
         self.isLeft = isLeft
-
         self.screenWidth = screenWidth
         self.screenHeight = screenHeight
-
         self.thickness = 25
         self.y = -self.thickness
         self.platformSize = random.randint(150,225)
@@ -222,7 +218,7 @@ class Environment:
 
         pygame.display.update()
         self.clock.tick(60)
-        #print(f'FPS: {self.clock.get_fps()}')
+
         if crashedCount == len(self.players):
             return 0
         
@@ -288,7 +284,6 @@ if __name__ == '__main__':
     mainloop = True
 
     while mainloop:
-        
         #Itterates through all the events that have happend in the frame
         for event in pygame.event.get():
             #Quit the program if the user clicks the 'X'

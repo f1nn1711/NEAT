@@ -9,7 +9,6 @@ class Population:
         self.size = config['populationSize']
         self.population = []
         self.generation = 1
-
         self.config = config
 
         if self.config['savePopulationProgress']:
@@ -94,9 +93,7 @@ class Population:
             
             if random.random() < self.config['connectionMutationRate']*((1-self.config['connectionMutationDecay'])**(self.generation-1)):
                 newGeneration[n].addConnection()
-            
-            # print(newGeneration)
-            # print(newGeneration[n].getConnections())
+
             for connection in newGeneration[n].getConnections():
                 if random.random() < self.config['weightMutationRate']*((1-self.config['weightMutationDecay'])**(self.generation-1)):
                     connection.mutate()
@@ -110,7 +107,6 @@ class Population:
         self.generation += 1
     
     def savePerformance(self, data):
-        print(os.getcwd())
         with open('progress/progress.json', 'r') as f:
             existingData = json.loads(f.read())
         

@@ -14,13 +14,10 @@ class Network:
         self.nInput = nInput
         self.nOutput = nOutput
         self.outputActivation = outputActivation
-
         self.inputNodes = []
         self.hiddenNodes = []
         self.outputNodes = []
-
         self.connections = []
-
         self.generateNodes()
 
     def generateNodes(self):
@@ -78,6 +75,7 @@ class Network:
                 # Try to do feedForward on each of the connections
                 fullFeedForward = True
                 for connection in relevantConnections:
+                    # print(f'Node: {n1} Connection: {n2}')
                     if (result := connection.feedForward()):
                         feedForwardResults.append(result)
                     else:
@@ -131,9 +129,6 @@ class Network:
     def getNodes(self):
         return self.inputNodes+self.hiddenNodes+self.outputNodes
     
-    def setNetworkFromSave(self, fileName):
-        pass
-    
     def getNetworkJSON(self):
         networkDict = {
             "nodes": [],
@@ -166,7 +161,6 @@ class Network:
         self.nInput = 0
         self.nOutput = 0
         self.outputActivation = 'linear'
-
         self.inputNodes = []
         self.hiddenNodes = []
         self.outputNodes = []

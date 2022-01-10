@@ -9,11 +9,9 @@ import list_functions as lf
 with open('hyperparams-platformer.json', 'r') as f:
     config = json.loads(f.read())
 
-
 pop = genetics.Population(config)
 
 visulizer = vis.Visulizer(50,50,100,150,None)
-
 
 env = platformer.Environment(config['populationSize'], True, visulizer)
 
@@ -47,14 +45,7 @@ while mainloop:
     for player, agent in zip(env.players, pop.population):
 
         count += 1
-        '''
-        inputs are going to be:
-        0: rel x pos
-        1: rel y pos
-        2: flattened array of the values from the env observation
-        ...
-        n
-        '''
+
         obs = environmentObs.copy()
         obs.append(player.getRelX())
         obs.append(player.getRelY())
