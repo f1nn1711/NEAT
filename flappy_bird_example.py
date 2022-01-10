@@ -74,7 +74,6 @@ while mainloop:
     visulizer.render()
 
     if not renderResult:
-        # Do the genetics related things
         for bird, agent in zip(env.birds, pop.population):
             agent.setFitness(bird.getCrashed())
         

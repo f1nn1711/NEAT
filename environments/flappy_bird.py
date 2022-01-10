@@ -12,11 +12,8 @@ class Bird:
         self.screenHeight = screenHeight
         self.velocity = 0
         self.terminalVelocity = 50
-
         self.colour = (0, 255, 0)
-
         self.crashed = False
-
         self.jumpForce = -5
     
     def step(self):
@@ -26,9 +23,6 @@ class Bird:
             self.velocity = self.terminalVelocity
         
         self.y += self.velocity
-
-        #self.y = max(0, self.y)
-        #self.y = min(self.y, self.screenHeight-self.height)
 
     def jump(self):
         self.velocity = self.jumpForce

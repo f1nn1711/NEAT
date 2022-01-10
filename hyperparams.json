@@ -14,5 +14,8 @@
     "weightMutationRate": 0.1,
     "weightMutationDecay": 0.01,
     "biasMutationRate": 0.1,
-    "biasMutationDecay": 0.01
+    "biasMutationDecay": 0.01,
+    "saveProgress": true,
+    "loadFromSave": false,
+    "savePopulationProgress": true
 }

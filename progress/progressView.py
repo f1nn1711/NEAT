@@ -25,11 +25,10 @@ plt.plot(xValues, upperPercentile, label = "75th Percentile")
 plt.plot(xValues, maxValues, label = "Max")
 
 plt.xlabel('Generation')
-# Set the y axis label of the current axis.
+
 plt.ylabel('Fitness')
-# Set a title of the current axes.
+
 plt.title('Progress of NEAT')
-# show a legend on the plot
+
 plt.legend()
-# Display a figure.
 plt.show()
