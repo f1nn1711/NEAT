@@ -22,3 +22,4 @@ Firstly a parameter is something that can be changed, when refering to a neural 
 15. "weightMutationDecay" => 0 => This is the rate at which the chance of a weight mutating decays. (Float 0<=n<=1)
 16. "biasMutationRate" => 0 => This is the chance that a bias from the network is randomised. (Float 0<=n<=1)
 17. "biasMutationDecay" => 0 => This is the rate at which the chance of a bias mutating decays. (Float 0<=n<=1)
+18. "load" => This can either be a relative file path("../saves/gen-3-1641769940.json") from "population.py" or false

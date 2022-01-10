@@ -30,6 +30,10 @@ while mainloop:
     for event in pygame.event.get():
         #Quit the program if the user clicks the 'X'
         if event.type == pygame.QUIT:
+            for player, agent in zip(env.players, pop.population):
+                agent.setFitness(player.getCrashed())
+            
+            pop.generatePool()
             sys.exit()
 
 

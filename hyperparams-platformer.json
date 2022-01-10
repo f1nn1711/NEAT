@@ -6,15 +6,16 @@
     "initConnections": 0,
     "ouputActivationFunction": "sigmoid",
     "higherIsBetter": true,
-    "forceNewNodeConnections": false,
+    "forceNewNodeConnections": true,
     "nodeMutationRate": 0.1,
     "nodeMutationDecay": 0.01,
     "connectionMutationRate": 0.8,
     "connectionMutationDecay": 0.01,
-    "weightMutationRate": 0.4,
-    "weightMutationDecay": 0.001,
-    "biasMutationRate": 0.4,
-    "biasMutationDecay": 0.001,
+    "weightMutationRate": 0.7,
+    "weightMutationDecay": 0.01,
+    "biasMutationRate": 0.5,
+    "biasMutationDecay": 0.01,
     "saveProgress": true,
-    "loadFromSave": "../saves/gen-3-1641769940.json"
+    "loadFromSave": false,
+    "savePopulationProgress": true
 }

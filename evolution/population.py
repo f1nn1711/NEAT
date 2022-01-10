@@ -12,6 +12,10 @@ class Population:
 
         self.config = config
 
+        if self.config['savePopulationProgress']:
+            with open('progress/progress.json', 'w') as f:
+                f.write(json.dumps([]))
+
         for n in range(self.size):
             if (saveFile := self.config['loadFromSave']):
                 dirname = os.path.dirname(__file__)
@@ -53,6 +57,18 @@ class Population:
         if self.config['saveProgress']:
             self.saveAgent(agentsDict[-1]['agent'])
 
+        if self.config['savePopulationProgress']:
+            fitnessValues = [element['fitness'] for element in agentsDict]
+            populationStatistics = {
+                "min": fitnessValues[0],
+                "25percentile": fitnessValues[round(len(fitnessValues)*0.25)],
+                "mean": sum(fitnessValues)/len(fitnessValues),
+                "75percentile": fitnessValues[round(len(fitnessValues)*0.75)],
+                "max": fitnessValues[-1]
+            }
+
+            self.savePerformance(populationStatistics)
+
         pool = []
 
         for n, agent in enumerate(agentsDict):
@@ -92,6 +108,17 @@ class Population:
         self.population = newGeneration
 
         self.generation += 1
+    
+    def savePerformance(self, data):
+        print(os.getcwd())
+        with open('progress/progress.json', 'r') as f:
+            existingData = json.loads(f.read())
+        
+        existingData.append(data)
+
+        with open('progress/progress.json', 'w') as f:
+            f.write(json.dumps(existingData))
+
 
 class Agent:
     def __init__(self, networkInputs=1, networkOutputs=1, outputActivation='sigmoid', jsonData=None):
