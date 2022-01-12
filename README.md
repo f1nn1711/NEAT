@@ -1,11 +1,10 @@
 # NEAT
 ## Get started
-First download/clone this repository, this can be done from the github web interface or be cloning the repository through the CLI. This has been developed on Python 3.8.0.
+First download/clone this repository, this can be done from the github web interface or be cloning the repository through the CLI. This has been developed on Python 3.8.0. Other than Pygame no other additional repositories are required.
 ## Using the program
 To see the NEAT algorithm immediatly run either "flappy_bird_example.py" or "platformer_example.py". If you wish to play the environments yourself, run either environments/flappy_bird.py or environments/platformer.py.
 If you wish to edit how the simulation is running, please refer to the hyperparameters section below.
 Once you are happy with the progress that the population has made you and close the program, navigate to the progress directory and run progressView.py. It is important that this file is ran from withing the progress directory. This is will display a graph of the fitness of the population over the generations.
-
 ## Flappy Bird
 This is a very basic clone of the orignal game, each frame the only actions the player can take is to either jump or not to jump.
 The inputs for this envronment are:
