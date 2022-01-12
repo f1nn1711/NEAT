@@ -39,6 +39,8 @@ In this environment the inputs are:
 An implementation of the NEAT(Neuro Evolution of Augmenting Topologies). NEAT combines neural networks and a genetic algorithm, in traditional neural networks the network weights and biases are adjusted by an optimization function (for example: stochastic gradient decent, adaptive moment estimation). In the NEAT algorithm the weights and biases are adjusted by random mutations. In traditional neural network the structure of the network is pre-defined in the hyper parameters and stay constants through the training process. In NEAT the structure of the nerual network can change throughout the training process through survival of the fittest. There is a chance that a mutation will occur where a new neuron or connection will be added to the network. In addition to this the weights and biases can under go mutations to allow them to change and improve over time.
 ## The advantages of NEAT
 By allowing the structure of the neural network to change over time it also means that the most efficient network model can be found as well as the best weights and biases. This allows the most optimal network structure to be found.
+## The disadvantages of NEAT
+Since the mutations are random, it is possible that the population may be unlucky and not have any mutations with positive affect. Since this implementation of the NEAT algorithm has an adaptive learning rate, if the population starts mutating in the wrong direction it is possible that this error is unable to be resolved in later generations.
 ## The hyperparameters
 Firstly a parameter is something that can be changed, when refering to a neural network an example of a parameter would be a weight or a bias. These are things that can be chnaged during the training process. A hyperparameter is something that can't be change during the training process. Here are the hyperparameters that can be set for this program:
 1. "populationSize" => The number of agents per generation (Any integer >0)
@@ -69,3 +71,4 @@ Firstly a parameter is something that can be changed, when refering to a neural 
 6. Platformer - Increase the speed as the game progresses as this will force the agents to be more efficient.
 7. Platformer - Add the option to count going off the left or right side of the screen as dying. This will prevent 'cheaty' methods of completing the game from occuring.
 8. Improve the efficiency of the feedforward function of the neural network.
+9. Speciation
